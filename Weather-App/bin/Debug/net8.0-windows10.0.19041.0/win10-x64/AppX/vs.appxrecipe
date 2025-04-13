@@ -30,7 +30,7 @@
     <AppXManifest Include="C:\Users\mehmet\Documents\GitHub\Weather-App\Weather-App\bin\Debug\net8.0-windows10.0.19041.0\win10-x64\AppxManifest.xml">
       <PackagePath>AppxManifest.xml</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2025-04-13T20:50:39.059</Modified>
+      <Modified>2025-04-13T21:18:04.685</Modified>
     </AppXManifest>
   </ItemGroup>
   <ItemGroup>
@@ -44,11 +44,11 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\mehmet\Documents\GitHub\Weather-App\Weather-App\bin\Debug\net8.0-windows10.0.19041.0\win10-x64\Weather-App.dll">
       <PackagePath>Weather-App.dll</PackagePath>
-      <Modified>2025-04-13T20:50:37.050</Modified>
+      <Modified>2025-04-13T21:18:03.275</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\mehmet\Documents\GitHub\Weather-App\Weather-App\obj\Debug\net8.0-windows10.0.19041.0\win10-x64\apphost.exe">
       <PackagePath>Weather-App.exe</PackagePath>
-      <Modified>2025-04-13T20:50:37.121</Modified>
+      <Modified>2025-04-13T21:18:03.340</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\mehmet\Documents\GitHub\Weather-App\Weather-App\Resources\Raw\AboutAssets.txt">
       <PackagePath>AboutAssets.txt</PackagePath>

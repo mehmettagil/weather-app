@@ -18,7 +18,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Weather-App")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0+ee5dfcbdfa1a6ee819798b14d3051b3bf4103a7f")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0+9721f474751036aab1b13811c718e5882087a9c7")]
 [assembly: System.Reflection.AssemblyProductAttribute("Weather-App")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Weather-App")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -178,3 +178,4 @@ C:\Users\mehmet\Documents\GitHub\Weather-App\Weather-App\obj\Debug\net8.0-window
 C:\Users\mehmet\Documents\GitHub\Weather-App\Weather-App\obj\Debug\net8.0-windows10.0.19041.0\win10-x64\MultipleQualifiersPerDimensionFound.txt
 C:\Users\mehmet\Documents\GitHub\Weather-App\Weather-App\obj\Debug\net8.0-windows10.0.19041.0\win10-x64\ProjectArchitectures.txt
 C:\Users\mehmet\Documents\GitHub\Weather-App\Weather-App\bin\Debug\net8.0-windows10.0.19041.0\win10-x64\Newtonsoft.Json.dll
+C:\Users\mehmet\Documents\GitHub\Weather-App\Weather-App\obj\Debug\net8.0-windows10.0.19041.0\win10-x64\Weather-App.sourcelink.json
