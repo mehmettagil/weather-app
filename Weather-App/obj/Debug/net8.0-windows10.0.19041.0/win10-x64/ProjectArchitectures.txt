@@ -1,0 +1,1 @@
+C:\Users\mehmet\Documents\GitHub\Weather-App\Weather-App\Weather-App.csproj;x64
