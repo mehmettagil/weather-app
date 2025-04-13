@@ -1,0 +1,162 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:weather_App.ViewModels"
+             x:Class="weather_App.MainPage"
+             x:DataType="viewmodels:MainViewModel"
+             Title="Hava Durumu">
+
+    <Grid RowDefinitions="Auto,*"
+          Padding="20"
+          RowSpacing="15">
+          
+        <!-- Arama Bölümü -->
+        <Grid Grid.Row="0" ColumnDefinitions="*,Auto" ColumnSpacing="10">
+            <Entry Placeholder="Şehir adı girin..." 
+                   Text="{Binding Location}"
+                   ReturnCommand="{Binding LoadWeatherCommand}" />
+            <Button Grid.Column="1" 
+                    Text="Ara" 
+                    Command="{Binding LoadWeatherCommand}"
+                    WidthRequest="80" />
+        </Grid>
+        
+        <!-- Hava Durumu İçeriği -->
+        <ScrollView Grid.Row="1">
+            <Grid RowSpacing="20" Padding="0,10,0,0">
+                <StackLayout IsVisible="{Binding IsLoading}">
+                    <ActivityIndicator IsRunning="{Binding IsLoading}"
+                                      HorizontalOptions="Center"
+                                      VerticalOptions="Center"
+                                      HeightRequest="50"
+                                      WidthRequest="50" />
+                    <Label Text="Hava durumu yükleniyor..."
+                          HorizontalOptions="Center" />
+                </StackLayout>
+                
+                <StackLayout IsVisible="{Binding HasError}">
+                    <Label Text="{Binding ErrorMessage}"
+                          HorizontalOptions="Center"
+                          TextColor="Red" 
+                          FontSize="16"/>
+                </StackLayout>
+                
+                <VerticalStackLayout IsVisible="{Binding WeatherData, Converter={StaticResource NotNullConverter}}"
+                                    Spacing="20">
+                                    
+                    <!-- Konum ve Zaman Bilgisi -->
+                    <StackLayout HorizontalOptions="Center">
+                        <Label Text="{Binding WeatherData.Location.Name, StringFormat='{0},'}" 
+                              FontSize="24"
+                              FontAttributes="Bold"
+                              HorizontalOptions="Center"/>
+                        <Label Text="{Binding WeatherData.Location.Country}" 
+                              FontSize="16"
+                              HorizontalOptions="Center"/>
+                        <Label Text="{Binding WeatherData.Location.LocalTime}" 
+                              FontSize="14"
+                              HorizontalOptions="Center"
+                              TextColor="DarkGray"/>
+                    </StackLayout>
+                    
+                    <!-- Güncel Hava Durumu -->
+                    <Frame BackgroundColor="#f7f7f7"
+                          Padding="15"
+                          CornerRadius="10"
+                          HasShadow="True">
+                        <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto,Auto" ColumnSpacing="15">
+                            <Image Grid.RowSpan="2" 
+                                  Source="{Binding WeatherData.Current.Condition.Icon}"
+                                  WidthRequest="100" 
+                                  HeightRequest="100"/>
+                                  
+                            <Label Grid.Column="1" 
+                                  Text="{Binding WeatherData.Current.TempC, StringFormat='{0}°C'}"
+                                  FontSize="40"
+                                  FontAttributes="Bold"
+                                  VerticalOptions="Center"/>
+                                  
+                            <Label Grid.Row="1" Grid.Column="1"
+                                  Text="{Binding WeatherData.Current.Condition.Text}"
+                                  FontSize="18"
+                                  VerticalOptions="Start"/>
+                                  
+                            <Grid Grid.Row="2" Grid.ColumnSpan="2" Margin="0,15,0,0" ColumnSpacing="15" RowSpacing="10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                
+                                <!-- Nem -->
+                                <Label Grid.Column="0" Text="Nem" FontSize="14" TextColor="Gray"/>
+                                <Label Grid.Row="1" Grid.Column="0" 
+                                      Text="{Binding WeatherData.Current.Humidity, StringFormat='{0}%'}"
+                                      FontSize="16" FontAttributes="Bold"/>
+                                
+                                <!-- Rüzgar -->
+                                <Label Grid.Column="1" Text="Rüzgar" FontSize="14" TextColor="Gray"/>
+                                <Label Grid.Row="1" Grid.Column="1" 
+                                      Text="{Binding WeatherData.Current.WindKph, StringFormat='{0} km/s'}"
+                                      FontSize="16" FontAttributes="Bold"/>
+                                
+                                <!-- UV İndeksi -->
+                                <Label Grid.Column="2" Text="UV İndeksi" FontSize="14" TextColor="Gray"/>
+                                <Label Grid.Row="1" Grid.Column="2" 
+                                      Text="{Binding WeatherData.Current.Uv}"
+                                      FontSize="16" FontAttributes="Bold"/>
+                            </Grid>
+                        </Grid>
+                    </Frame>
+                    
+                    <!-- 7 Günlük Tahmin (Başlık) -->
+                    <Label Text="7 Günlük Tahmin"
+                          FontSize="18"
+                          FontAttributes="Bold"
+                          Margin="0,10,0,0"/>
+                          
+                    <!-- 7 Günlük Tahmin (Liste) -->
+                    <CollectionView ItemsSource="{Binding WeatherData.Forecast.ForecastDay}"
+                                   HeightRequest="300">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Frame Margin="0,5" 
+                                      Padding="10" 
+                                      BackgroundColor="#f0f0f0"
+                                      CornerRadius="8">
+                                    <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="15">
+                                        <Label Text="{Binding Date}"
+                                              VerticalOptions="Center"/>
+                                        
+                                        <StackLayout Grid.Column="1" Orientation="Horizontal" HorizontalOptions="Start">
+                                            <Image Source="{Binding Day.Condition.Icon}"
+                                                  WidthRequest="40"
+                                                  HeightRequest="40"/>
+                                            <Label Text="{Binding Day.Condition.Text}"
+                                                  VerticalOptions="Center"
+                                                  MaxLines="1"
+                                                  LineBreakMode="TailTruncation"/>
+                                        </StackLayout>
+                                        
+                                        <StackLayout Grid.Column="2" Orientation="Horizontal" Spacing="5">
+                                            <Label Text="{Binding Day.MaxTempC, StringFormat='{0}°'}"
+                                                  FontAttributes="Bold"
+                                                  VerticalOptions="Center"/>
+                                            <Label Text="{Binding Day.MinTempC, StringFormat='{0}°'}"
+                                                  TextColor="Gray"
+                                                  VerticalOptions="Center"/>
+                                        </StackLayout>
+                                    </Grid>
+                                </Frame>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </VerticalStackLayout>
+            </Grid>
+        </ScrollView>
+    </Grid>
+</ContentPage>
