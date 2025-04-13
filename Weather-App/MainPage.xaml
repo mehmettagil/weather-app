@@ -51,6 +51,42 @@
                               Color="#2196F3" 
                               HorizontalOptions="Center" 
                               VerticalOptions="Center" />
+
+            <!-- Favorite Cities Section -->
+            <Label Text="Favorite Cities" 
+                   FontSize="18" 
+                   TextColor="Black" 
+                   Margin="0,20,0,5" />
+            
+            <CollectionView ItemsSource="{Binding FavoriteCities}" 
+                           SelectionMode="Single" 
+                           SelectionChangedCommand="{Binding SelectFavoriteCityCommand}"
+                           SelectionChangedCommandParameter="{Binding SelectedItem, Source={RelativeSource Self}}"
+                           HeightRequest="100">
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Horizontal" />
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame Margin="0,0,10,0" 
+                               Padding="10" 
+                               CornerRadius="10" 
+                               BackgroundColor="#f0f0f0">
+                            <Label Text="{Binding}" 
+                                   FontSize="14" 
+                                   HorizontalOptions="Center" 
+                                   VerticalOptions="Center" />
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+                <CollectionView.EmptyView>
+                    <Label Text="No favorite cities yet." 
+                           HorizontalOptions="Center" 
+                           VerticalOptions="Center" 
+                           FontSize="14" 
+                           TextColor="#666" />
+                </CollectionView.EmptyView>
+            </CollectionView>
         </VerticalStackLayout>
 
         <!-- Weather Display Section -->
@@ -78,6 +114,19 @@
                            HorizontalOptions="Center" 
                            TextColor="#555" 
                            Margin="0,5,0,0" />
+                           
+                    <!-- Favorite Buttons -->
+                    <HorizontalStackLayout HorizontalOptions="Center" Margin="0,10,0,0">
+                        <Button Text="Add to Favorites" 
+                                Command="{Binding AddToFavoritesCommand}" 
+                                BackgroundColor="#4CAF50" 
+                                TextColor="White" 
+                                Margin="0,0,10,0" />
+                        <Button Text="Remove from Favorites" 
+                                Command="{Binding RemoveFromFavoritesCommand}" 
+                                BackgroundColor="#f44336" 
+                                TextColor="White" />
+                    </HorizontalStackLayout>
                 </VerticalStackLayout>
 
                 <!-- Additional Weather Info -->

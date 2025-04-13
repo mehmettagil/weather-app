@@ -1,15 +1,16 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Microsoft.Maui.Controls;
 using Weather_App.Models;
-using Weather_App.Services;
+using Weather_App.Repositories;
 
 namespace Weather_App.ViewModels
 {
     public class WeatherViewModel : BaseViewModel
     {
-        private readonly IWeatherService _weatherService;
+        private readonly IWeatherRepository _weatherRepository;
         
         private string _cityName = string.Empty;
         public string CityName
@@ -87,19 +88,36 @@ namespace Weather_App.ViewModels
             get => _weatherIcon;
             set => SetProperty(ref _weatherIcon, value);
         }
+        
+        private List<string> _favoriteCities = new List<string>();
+        public List<string> FavoriteCities
+        {
+            get => _favoriteCities;
+            set => SetProperty(ref _favoriteCities, value);
+        }
 
         public ICommand SearchCommand { get; }
+        public ICommand AddToFavoritesCommand { get; }
+        public ICommand RemoveFromFavoritesCommand { get; }
+        public ICommand SelectFavoriteCityCommand { get; }
         
-        public WeatherViewModel(IWeatherService weatherService)
+        public WeatherViewModel(IWeatherRepository weatherRepository)
         {
             Title = "Weather App";
-            _weatherService = weatherService;
+            _weatherRepository = weatherRepository;
+            
             SearchCommand = new Command(async () => await SearchWeatherAsync());
+            AddToFavoritesCommand = new Command(async () => await AddToFavoritesAsync());
+            RemoveFromFavoritesCommand = new Command(async () => await RemoveFromFavoritesAsync());
+            SelectFavoriteCityCommand = new Command<string>(async (city) => await SelectFavoriteCityAsync(city));
             
             // Default values
             HasWeatherData = false;
             IsError = false;
             ErrorMessage = string.Empty;
+            
+            // Favori şehirleri yükle
+            LoadFavoriteCitiesAsync().ConfigureAwait(false);
         }
         
         private async Task SearchWeatherAsync()
@@ -118,7 +136,7 @@ namespace Weather_App.ViewModels
                 IsError = false;
                 ErrorMessage = string.Empty;
                 
-                var weatherData = await _weatherService.GetWeatherDataAsync(SearchText);
+                var weatherData = await _weatherRepository.GetCurrentWeatherAsync(SearchText);
                 
                 if (weatherData == null)
                 {
@@ -153,6 +171,35 @@ namespace Weather_App.ViewModels
             WindSpeed = $"{data.Wind.Speed} m/s";
             FeelsLike = $"Feels like: {Math.Round(data.Main.FeelsLike)}°C";
             WeatherIcon = data.Weather[0].Icon;
+        }
+        
+        private async Task AddToFavoritesAsync()
+        {
+            if (!string.IsNullOrEmpty(SearchText))
+            {
+                await _weatherRepository.AddFavoriteCityAsync(SearchText);
+                await LoadFavoriteCitiesAsync();
+            }
+        }
+        
+        private async Task RemoveFromFavoritesAsync()
+        {
+            if (!string.IsNullOrEmpty(SearchText))
+            {
+                await _weatherRepository.RemoveFavoriteCityAsync(SearchText);
+                await LoadFavoriteCitiesAsync();
+            }
+        }
+        
+        private async Task SelectFavoriteCityAsync(string city)
+        {
+            SearchText = city;
+            await SearchWeatherAsync();
+        }
+        
+        private async Task LoadFavoriteCitiesAsync()
+        {
+            FavoriteCities = await _weatherRepository.GetFavoriteCitiesAsync();
         }
     }
 } 

@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using Weather_App.Repositories;
 using Weather_App.Services;
 using Weather_App.ViewModels;
 using Weather_App.Views;
@@ -20,6 +21,9 @@ namespace Weather_App
 
             // Register services
             builder.Services.AddSingleton<IWeatherService, WeatherService>();
+            
+            // Register repositories
+            builder.Services.AddSingleton<IWeatherRepository, WeatherRepository>();
             
             // Register view models
             builder.Services.AddSingleton<WeatherViewModel>();
